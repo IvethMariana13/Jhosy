@@ -1,21 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
 
+import HomeScreen from './pages/Home';
+import {InputScreen} from './pages/input';
+import ListScreen from './pages/list';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+const Tab = createBottomTabNavigator();
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator     screenOptions = {({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        if (route.name === 'Home') {
+          //iconName = focused
+            iconName = 'ios-home'
+        } else if (route.name === 'List') {
+          iconName = "ios-list";
+        } else if (route.name === 'Input') {
+          iconName = "ios-add";
+        }
+
+        return <Ionicons name={iconName} size={size} color={color} />;
+      },
+      tabBarActiveTintColor:"pink",
+        tabBarInactiveTintColor:"grey",
+      
+    })}>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Input" component={InputScreen} />
+        <Tab.Screen name="List" component={ListScreen} />
+    </Tab.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
